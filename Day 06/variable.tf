@@ -31,5 +31,5 @@ variable "tag-name-prefix" {
 variable "tag-name-suffix" {
   description = "Suffix for tag name"
   type        = string
-  default   = "for-terraform-project"
+  default     = "for-terraform-project"
 }

@@ -1,2 +1,2 @@
-environment="stage"
-project="Terraform-Project"
+environment = "stage"
+project     = "Terraform-Project"
