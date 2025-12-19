@@ -11,6 +11,7 @@ day08/
 ├── main.tf          # Main resource definitions with count and for_each examples
 ├── output.tf        # Output values demonstrating for loops
 └── README.md        # This file
+```
 
 ### Meta-Arguments Overview
 
@@ -63,7 +64,8 @@ resource "aws_s3_bucket" "dependant_bucket" {
     bucket = var.s3_bucket_names_depends[0]
 
     depends_on = [ aws_s3_bucket.primary_bucket]
-}```
+}
+```
 
 **Use cases:**
 - Explicit resource ordering
