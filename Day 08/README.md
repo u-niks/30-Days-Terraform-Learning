@@ -4,13 +4,13 @@
 
 ```
 day08/
-├── backend.tf       # S3 backend configuration
-├── provider.tf      # AWS provider configuration
-├── variables.tf     # Input variables (list, set, map, object types)
-├── local.tf         # Local values and common tags
-├── main.tf          # Main resource definitions with count and for_each examples
-├── output.tf        # Output values demonstrating for loops
-└── README.md        # This file
+├── backend.tf          # S3 backend configuration
+├── provider.tf         # AWS provider configuration
+├── variables.tf        # Input variables (list, set, map, object types)
+├── local.tf            # Local values and common tags
+├── main.tf             # Main resource definitions with count and for_each examples
+├── output.tf           # Output values demonstrating for loops
+└── README.md           # This file
 ```
 
 ### Meta-Arguments Overview
