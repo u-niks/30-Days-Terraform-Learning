@@ -1,0 +1,28 @@
+first_name,last_name,department,job_title,mobile_number,employee_id,email,office_location,hire_year
+Michael,Scott,Education,Regional Manager,+13821102592,EMP20283,michael.scott@dundermifflin.com,Stamford,2017
+Dwight,Schrute,Sales,Assistant to the Regional Manager,+14193766150,EMP37997,dwight.schrute@dundermifflin.com,Scranton,2006
+Jim,Halpert,Sales,Sales Representative,+19424328430,EMP38557,jim.halpert@dundermifflin.com,Stamford,2010
+Pam,Beesly,Reception,Receptionist,+15252015666,EMP56617,pam.beesly@dundermifflin.com,Scranton,2003
+Ryan,Howard,Temps,Temp,+16975484705,EMP31836,ryan.howard@dundermifflin.com,Akron,2011
+Andy,Bernard,Sales,Sales Representative,+12274589993,EMP90840,andy.bernard@dundermifflin.com,Scranton,2018
+Robert,California,Corporate,CEO,+18819710274,EMP38231,robert.california@dundermifflin.com,Akron,2002
+Stanley,Hudson,Sales,Sales Representative,+17058629809,EMP81113,stanley.hudson@dundermifflin.com,Akron,2011
+Kevin,Malone,Accounting,Accountant,+17362230114,EMP79539,kevin.malone@dundermifflin.com,Akron,2002
+Angela,Martin,Accounting,Accountant,+13309114207,EMP18120,angela.martin@dundermifflin.com,Stamford,2005
+Oscar,Martinez,Accounting,Accountant,+12721188356,EMP77453,oscar.martinez@dundermifflin.com,Scranton,2007
+Phyllis,Vance,Sales,Sales Representative,+12818644139,EMP51205,phyllis.vance@dundermifflin.com,Stamford,2009
+Toby,Flenderson,HR,HR Representative,+19404315707,EMP18606,toby.flenderson@dundermifflin.com,Scranton,2002
+Kelly,Kapoor,Customer Service,Customer Service Representative,+16904395624,EMP32886,kelly.kapoor@dundermifflin.com,Scranton,2017
+Darryl,Philbin,Warehouse,Warehouse Foreman,+12688889600,EMP98110,darryl.philbin@dundermifflin.com,Akron,1998
+Creed,Bratton,Quality Assurance,Quality Assurance,+10090712119,EMP21337,creed.bratton@dundermifflin.com,Nashua,2013
+Meredith,Palmer,Supplier Relations,Supplier Relations,+14600804542,EMP28740,meredith.palmer@dundermifflin.com,Stamford,2010
+Erin,Hannon,Reception,Receptionist,+18820688618,EMP98631,erin.hannon@dundermifflin.com,Stamford,2012
+Gabe,Lewis,Corporate,Coordinating Director of Emerging Regions,+10163866064,EMP24431,gabe.lewis@dundermifflin.com,Nashua,2006
+Jan,Levinson,Corporate,Vice President of Northeast Sales,+11782317301,EMP01485,jan.levinson@dundermifflin.com,Nashua,1999
+David,Wallace,Corporate,CFO,+18831810270,EMP49021,david.wallace@dundermifflin.com,Nashua,2014
+Holly,Flax,HR,HR Representative,+11949080275,EMP00171,holly.flax@dundermifflin.com,Scranton,2002
+Charles,Miner,Corporate,Vice President of the Northeast Region,+11289055625,EMP03207,charles.miner@dundermifflin.com,Akron,2000
+Jo,Bennett,Corporate,CEO of Sabre,+19924594413,EMP64015,jo.bennett@dundermifflin.com,Nashua,2009
+Clark,Green,Sales,Sales Representative,+15247235756,EMP10808,clark.green@dundermifflin.com,Akron,1995
+Pete,Miller,Customer Service,Customer Service Representative,+12616643508,EMP11700,pete.miller@dundermifflin.com,Stamford,2008
+
