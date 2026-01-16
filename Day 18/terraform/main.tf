@@ -13,7 +13,7 @@ locals {
 
 
 # ============================================================================
-# SOURCE S3 BUCKETS FOR UPLOADING ORIGINAL IMAGES
+# SOURCE S3 BUCKETS FOR UPLOADING ORIGINAL IMAGES    
 # ============================================================================
 
 resource "aws_s3_bucket" "upload_bucket" {
