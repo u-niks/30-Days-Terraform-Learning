@@ -46,20 +46,20 @@ variable "public_subnets" {
 variable "enable_db_secret" {
     description = "Enable database credentials secret"
     type        = bool
-    default     = true
+    default     = false
 }
 
 variable "db_username" {
     description = "Database username"
     type        = string
-    default     = "app_admin"
+    default     = ""
     sensitive   = true
 }
 
 variable "db_password" {
     description = "Database password"
     type        = string
-    default     = "password"
+    default     = ""
     sensitive   = true
 }
 
@@ -84,7 +84,7 @@ variable "db_port" {
 variable "db_name" {
     description = "Database name"
     type        = string
-    default     = "eks"
+    default     = ""
 }
 
 variable "enable_api_secret" {
@@ -116,12 +116,6 @@ variable "enable_app_config_secret" {
 variable "app_config" {
     description = "Application configuration as a map"
     type        = map(string)
-    default     = {
-        DB_HOST = ""
-        DB_PORT = "5432"
-        DB_NAME = "eks_app"
-        DB_USER = "app_admin"
-
-    }
+    default     = {}
     sensitive   = true
 }
