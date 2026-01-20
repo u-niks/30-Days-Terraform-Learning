@@ -114,7 +114,7 @@ variable "enable_app_config_secret" {
 }
 
 variable "app_config" {
-    description = "Application configuration as a map"
+    description = "Application configurations as a map"
     type        = map(string)
     default     = {}
     sensitive   = true
