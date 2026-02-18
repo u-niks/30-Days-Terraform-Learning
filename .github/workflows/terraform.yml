@@ -8,7 +8,7 @@ on:
       - test
       - dev
     paths:
-      - 'Day\ 27/**'
+      - 'Day 27/**'
 
   pull_request:
     branches:
@@ -17,7 +17,7 @@ on:
       - test
       - dev
     paths:
-      - 'Day\ 27/**'
+      - 'Day 27/**'
 
 env:
   TF_LOG: INFO
@@ -39,7 +39,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./lessons/day27/code/
+        working-directory: ./Day 27/
 
     steps:
       - name: Checkout
@@ -158,7 +158,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan-${{ env.WORKSPACE_NAME }}
-          path: ./Day\ 27/tfplan
+          path: ./Day 27/tfplan
 
   terraform-apply:
     name: "Terraform Apply"
@@ -169,7 +169,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./Day\ 27/
+        working-directory: ./Day 27/
         
 
     steps:
@@ -207,7 +207,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: tfplan-${{ env.WORKSPACE_NAME }}
-          path: ./Day\ 27/
+          path: ./Day 27/
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false tfplan
