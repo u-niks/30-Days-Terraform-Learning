@@ -14,7 +14,7 @@ database_subnet_cidrs = ["10.0.31.0/24", "10.0.32.0/24"]
 single_nat_gateway    = true                # false for high availability (costs more)
 
 # SSH Configuration
-ssh_key_name     = "your-key-pair-name"     # REQUIRED: Replace with your key pair name
+ssh_key_name     = "demo.pem"     # REQUIRED: Replace with your key pair name
 allowed_ssh_cidr = "0.0.0.0/0"              # CHANGE THIS: Use your IP address like "1.2.3.4/32"
 
 # Bastion Configuration
@@ -43,8 +43,8 @@ db_backup_retention     = 7
 db_skip_final_snapshot  = true              # false for production
 
 # Docker Hub Configuration
-frontend_docker_image = "your-dockerhub-username/goal-tracker-frontend:latest"
-backend_docker_image  = "your-dockerhub-username/goal-tracker-backend:latest"
+frontend_docker_image = "uniks/goal-tracker-frontend:latest"
+backend_docker_image  = "uniks/goal-tracker-backend:latest"
 dockerhub_username    = ""                  # Leave empty for public images
 dockerhub_password    = ""                  # Leave empty for public images, or use access token
 
