@@ -15,7 +15,7 @@ resource "random_password" "db_password" {
 
 # VPC module
 module "vpc" {
-    source = ""
+    source = "../../modules/vpc"
 
     environment           = var.environment
     project               = var.project
@@ -33,25 +33,36 @@ module "vpc" {
 
 # Security Groups Module
 module "security_groups" {
-    source = ""
+    source = "../../modules/security-groups"
 
     environment       = var.environment
     project           = var.project
     vpc_id            = module.vpc.vpc_id
-    allowed_ssh_cidrs = [ var.allowed_ssh_cidrs ]
+    allowed_ssh_cidrs = [ var.allowed_ssh_cidr ]
+
+    tags = var.tags
+}
+
+# IAM Module
+module "iam" {
+    source = "../../modules/iam"
+
+    environment  = var.environment
+    project      = var.project
+    secrets_arns = ["*"]
 
     tags = var.tags
 }
 
 # RDS Module
 module "rds" {
-    source = ""
+    source = "../../modules/rds"
     
     environment             = var.environment
     project                 = var.project
     subnet_ids              = module.vpc.database_subnet_ids
     security_group_id       = module.vpc.rds_sg_id
-    instance_class          = var.instance_class
+    instance_class          = var.db_instance_class
     allocated_storage       = var.db_allocated_storage
     engine_version          = var.db_engine_version
     db_name                 = var.db_name
@@ -66,14 +77,14 @@ module "rds" {
 
 # Secrets Manager Module
 module "secrets" {
-    source = ""
+    source = "../../modules/secrets"
 
     environment = var.environment
     project     = var.project
     db_username = var.db_username
     db_password = random_password.db_password.result
-    db_host     = var.db_host
-    db_port     = var.db_port
+    db_host     = module.rds.db_address
+    db_port     = module.rds.db_port
     db_name     = var.db_name
 
     tags = var.tags
@@ -81,12 +92,12 @@ module "secrets" {
 
 # Bastion Module
 module "bastion" {
-    source = ""
+    source = "../../modules/bastion"
 
     environment          = var.environment
     project              = var.project
-    instance_type        = var.instance_type
-    key_name             = var.key_name
+    instance_type        = var.bastion_instance_type
+    key_name             = var.ssh_key_name
     subnet_id            = module.vpc.public_subnet_ids[0]
     security_group_id    = module.security_groups.bastion_sg_id
     iam_instance_profile = module.iam.ec2_instance_profile_name
@@ -96,7 +107,7 @@ module "bastion" {
 
 # Public Application Load Balancer Module (Frontend)
 module "alb" {
-    source = ""
+    source = "../../modules/alb"
 
     environment       = var.environment
     project           = var.project
@@ -128,12 +139,12 @@ module "internal_alb" {
 
 # Frontend ASG Module
 module "frontend_asg" {
-    source = ""
+    source = "../../modules/frontend-asg"
 
     environment          = var.environment
     project              = var.project
     region               = var.region
-    instance_type        = var.instance_type
+    instance_type        = var.frontend_instance_type
     key_name             = var.ssh_key_name
     iam_instance_profile = module.iam.ec2_instance_profile_name
     security_group_id    = module.security_groups.frontend_sg_id
@@ -155,12 +166,12 @@ module "frontend_asg" {
 
 # Backend ASG Module
 module "backend_asg" {
-    source = ""
+    source = "../../modules/backend-asg"
 
     environment          = var.environment
     project              = var.project
     region               = var.region
-    instance_type        = var.instance_type
+    instance_type        = var.backend_instance_type
     key_name             = var.ssh_key_name
     iam_instance_profile = module.iam.ec2_instance_profile_name
     security_group_id    = module.security_groups.backend_sg_id
