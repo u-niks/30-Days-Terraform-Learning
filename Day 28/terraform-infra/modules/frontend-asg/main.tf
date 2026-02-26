@@ -102,9 +102,9 @@ resource "aws_autoscaling_group" "frontend" {
         "GroupMinSize",
         "GroupPendingInstances",
         "GroupStandbyInstances",
-        "GroupTerminatingInstance",
+        "GroupTerminatingInstances",
         "GroupTotalInstances"
-    ]
+        ]
     
     tag {
         key                 = "Name"
