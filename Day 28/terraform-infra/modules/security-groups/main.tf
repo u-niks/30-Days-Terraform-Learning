@@ -100,19 +100,19 @@ resource "aws_security_group" "frontend" {
     vpc_id      = var.vpc_id
 
     ingress {
-        description = "HTTP from ALB"
-        from_port   = 3000
-        to_port     = 3000
-        protocol    = "tcp"
-        cidr_blocks = [ aws_security_group.alb.id ]    
+        description     = "HTTP from ALB"
+        from_port       = 3000
+        to_port         = 3000
+        protocol        = "tcp"
+        security_groups = [ aws_security_group.alb.id ]    
     }
 
     ingress {
         description = "SSH from Bastion"
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_blocks = [ aws_security_group.bastion.id]
+        from_port       = 22
+        to_port         = 22
+        protocol        = "tcp"
+        security_groups = [ aws_security_group.bastion.id]
     }
 
     egress {
