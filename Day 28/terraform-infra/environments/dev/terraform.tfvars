@@ -35,7 +35,7 @@ backend_desired_capacity = 2
 # RDS Configuration
 db_instance_class       = "db.t3.micro"
 db_allocated_storage    = 20
-db_engine_version       = "16.6"
+db_engine_version       = "15.8"
 db_name                 = "goalsdb"
 db_username             = "postgres"
 db_multi_az             = false             # true for high availability
