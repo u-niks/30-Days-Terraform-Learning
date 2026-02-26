@@ -10,27 +10,27 @@ output "vpc_cidr" {
 
 output "public_subnet_ids" {
     description = "List of public subnet IDs"
-    value       = aws_subnet.public[*].id
+    value       = aws_subnet.public_subnets[*].id
 }
 
 output "frontend_subnet_ids" {
     description = "List of frontend private subnet IDs"
-    value       = aws_subnet.frontend[*].id
+    value       = aws_subnet.frontend_subnets[*].id
 }
 
 output "backend_subnet_ids" {
     description = "List of backend private subnet IDs"
-    value       = aws_subnet.backend[*].id
+    value       = aws_subnet.backend_subnets[*].id
 }
 
 output "database_subnet_ids" {
     description = "List of database isolated subnet IDs"
-    value       = aws_subnet.database[*].id
+    value       = aws_subnet.database_subnets[*].id
 }
 
 output "nat_gateway_ips" {
     description = "Elastic IPs of NAT Gateways"
-    value       = aws_eip.nat[*].public_ip
+    value       = aws_eip.nat_eip[*].public_ip
 }
 
 output "internet_gateway_id" {

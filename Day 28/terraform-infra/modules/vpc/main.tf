@@ -94,7 +94,7 @@ resource "aws_eip" "nat_eip" {
         }
     )
 
-    depends_on = [ aws_internet_gateway.main.id ]
+    depends_on = [ aws_internet_gateway.main ]
 }
 
 # NAT Gateway
@@ -163,7 +163,7 @@ resource "aws_route" "frontend_route" {
 resource "aws_route_table_association" "frontend_rta" {
     count          = length(var.availability_zones)
     subnet_id      = aws_subnet.frontend_subnets[count.index].id
-    route_table_id = var.enable_nat_gateway ? aws_route_table.frontend_route[count.index].id : null
+    route_table_id = var.enable_nat_gateway ? aws_route_table.frontend_rt[count.index].id : null
 }
 
 # Route Tables for Backend Private Subnets
@@ -190,7 +190,7 @@ resource "aws_route" "backend_route" {
 resource "aws_route_table_association" "backend_rta" {
     count          = length(var.availability_zones)
     subnet_id      = aws_subnet.backend_subnets[count.index].id
-    route_table_id = var.enable_nat_gateway ? aws_route_table.backend_route[count.index].id : null
+    route_table_id = var.enable_nat_gateway ? aws_route_table.backend_rt[count.index].id : null
 }
 
 # Route Table for Database Subnets (No internet access)
