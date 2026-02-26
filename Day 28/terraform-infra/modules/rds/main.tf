@@ -62,7 +62,7 @@ resource "aws_db_instance" "main" {
     availability_zone   = var.multi_az ? null : var.availability_zone
 
     backup_retention_period = var.backup_retention_period
-    backup_target           = "03:00-04:00"
+    backup_window           = "03:00-04:00"
     maintenance_window      = "mon:04:00-mon:05:00"
 
     skip_final_snapshot       = var.skip_final_snapshot
