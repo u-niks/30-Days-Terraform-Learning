@@ -27,7 +27,7 @@ variable "instance_type" {
 
 variable "key_name" {
     description = "SSH key pair name"
-    type        = stringM
+    type        = string
 }
 
 variable "iam_instance_profile" {
