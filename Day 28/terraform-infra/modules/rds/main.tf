@@ -21,7 +21,7 @@ resource "aws_db_parameter_group" "main" {
     }
 
     parameter {
-        name  = "log"
+        name  = "log_disconnections"
         value = "1"
     }
 
