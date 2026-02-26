@@ -61,7 +61,7 @@ module "rds" {
     environment             = var.environment
     project                 = var.project
     subnet_ids              = module.vpc.database_subnet_ids
-    security_group_id       = module.vpc.rds_sg_id
+    security_group_id       = module.security_groups.rds_sg_id
     instance_class          = var.db_instance_class
     allocated_storage       = var.db_allocated_storage
     engine_version          = var.db_engine_version
@@ -130,7 +130,7 @@ module "internal_alb" {
     name_prefix       = "internal-"
     internal          = true
     vpc_id            = module.vpc.vpc_id
-    subnet_ids        = module.vpc.forward_subnet_ids
+    subnet_ids        = module.vpc.frontend_subnet_ids
     security_group_id = module.security_groups.internal_alb_sg_id
     target_group_port = 8080
 
