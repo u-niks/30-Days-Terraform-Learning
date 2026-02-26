@@ -35,6 +35,35 @@ resource "aws_security_group" "alb" {
     )
 }
 
+# Security Group for Internal Application Load Balancer
+resource "aws_security_group" "internal_alb" {
+    name = "${var.environment}-${var.project}-internal-alb-sg"
+    description = "Security group for Internal Application Load Balancer"
+    vpc_id      = var.vpc_id
+
+    ingress {
+        description     = "HTTP from Frontend"
+        from_port       = 80
+        to_port         = 80
+        protocol        = "tcp"
+        security_groups = [aws_security_group.frontend.id]
+    }
+
+    egress {
+        description = "Allow all outbound traffic"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    tags = merge(
+        var.tags, {
+            Name = "${var.environment}-${var.project}-internal-alb-sg"
+        }
+    )
+}
+
 # Security Group for Bastion Host
 resource "aws_security_group" "bastion" {
     name = "${var.environment}-${var.project}-bastion-sg"
@@ -165,15 +194,4 @@ resource "aws_security_group" "rds" {
             Name = "${var.environment}-${var.project}-rds-sg"
         }
     )
-}
-
-# IAM Module
-module "iam" {
-    source = ""
-
-    environment = var.environment
-    project     = var.project
-    secrets_arn = [ "*" ]
-
-    tags = var.tags
 }
