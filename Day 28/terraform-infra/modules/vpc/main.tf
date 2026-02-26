@@ -140,7 +140,7 @@ resource "aws_route_table_association" "public_rta" {
 
 # Route Tables for Frontend Private Subnets
 resource "aws_route_table" "frontend_rt" {
-    count  = var.enable_nat_gateway ? legnth(var.availability_zones) : 0
+    count  = var.enable_nat_gateway ? length(var.availability_zones) : 0
     vpc_id = aws_vpc.main.id
 
     tags = merge(
