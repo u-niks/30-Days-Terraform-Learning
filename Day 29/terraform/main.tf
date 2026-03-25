@@ -189,13 +189,15 @@ data "http" "argocd_manifest" {
   url = "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
 }
 
+
 locals {
   argocd_non_crd_docs = [
     for doc in split("---", data.http.argocd_manifest.response_body) :
     doc
-    if trimspace(doc) != "" && !contains(doc, "CustomResourceDefinition")
+    if trimspace(doc) != "" && !can(regex("CustomResourceDefinition", doc))
   ]
 }
+
 
 resource "kubectl_manifest" "argocd" {
   for_each = {
