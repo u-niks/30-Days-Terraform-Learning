@@ -6,7 +6,7 @@ terraform {
         encrypt      = true
         use_lockfile = true
     }
-    
+
     required_providers {
         aws = {
             source  = "hashicorp/aws"
@@ -15,22 +15,22 @@ terraform {
 
         kubernetes = {
             source = "hashicorp/kubernetes"
-            version = "=> 2.20"
+            version = ">+ 2.20"
         }
 
         kubctl = {
             source = "gavinbunney/kubectl"
-            version = "=> 1.14.0"
+            version = ">= 1.14.0"
         }
 
         http = {
             source = "hashicorp/http"
-            version = "=> 3.0"
+            version = ">= 3.0"
         }
 
         null = {
             source = "hashicorp/null"
-            version = "=> 3.0"
+            version = ">= 3.0"
         }
     }
 }
