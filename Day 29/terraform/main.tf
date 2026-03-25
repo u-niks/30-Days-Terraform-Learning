@@ -106,46 +106,45 @@ resource "aws_eks_addon" "ebs_csi_driver" {
 
 # ArgoCD Namespace
 resource "kubernetes_namespace_v1" "argocd" {
-    metadata {
-        name = "argocd"
-    }
+  metadata {
+    name = "argocd"
+  }
 
-    depends_on = [module.eks]
+  depends_on = [module.eks]
 }
 
 # Install ArgoCD using kubectl provider
 data "http" "argocd_manifest" {
-    url = "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
+  url = "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
 }
 
 resource "kubectl_manifest" "argocd" {
-    for_each = { for doc in split("---", data.http.argocd_manifest.response_body) : 
-        sha256(doc) => doc if trimspace(doc) != "" 
-    }
+  for_each = { for doc in split("---", data.http.argocd_manifest.response_body) : 
+    sha256(doc) => doc if trimspace(doc) != "" 
+  }
 
-    yaml_body          = each.value
-    override_namespace = "argocd"
+  yaml_body = each.value
+  override_namespace = "argocd"
 
-    depends_on = [kubernetes_namespace_v1.argocd]
+  depends_on = [kubernetes_namespace_v1.argocd]
 }
 
 # Patch ArgoCD server service to LoadBalancer
 resource "null_resource" "patch_argocd_service" {
-    provisioner "local-exec" {
-        command = <<-EOT
-        # Update kubeconfig first
-        aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
-        
-        # Wait a bit for service to be created
-        sleep 10
-        
-        # Patch service to LoadBalancer (ignore errors if already patched)
-        kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}' || true
+  provisioner "local-exec" {
+    command = <<-EOT
+      # Update kubeconfig first
+      aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
+      
+      # Wait a bit for service to be created
+      sleep 10
+      
+      # Patch service to LoadBalancer (ignore errors if already patched)
+      kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}' || true
+    EOT
+  }
 
-        EOT
-    }
-
-    depends_on = [kubectl_manifest.argocd]
+  depends_on = [kubectl_manifest.argocd]
 }
 
 # Application namespace - managed by ArgoCD Application manifest
@@ -160,81 +159,7 @@ resource "null_resource" "patch_argocd_service" {
 
 # Deploy application via ArgoCD Application CRD
 resource "kubectl_manifest" "app_deployment" {
-    yaml_body = file("${path.module}/../manifests/argocd-app.yaml")
+  yaml_body = file("${path.module}/../manifests/argocd-app.yaml")
 
-    depends_on = [kubectl_manifest.argocd]
+  depends_on = [kubectl_manifest.argocd]
 }
-
-
-
-
-
-
-# ###########################################
-# # Install ArgoCD CRDs FIRST (avoids annotation too large errors)
-# ###########################################
-# resource "null_resource" "argocd_crds" {
-#   provisioner "local-exec" {
-#     command = <<-EOT
-#       aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
-#       # Use server-side apply to avoid huge annotation size
-#       kubectl apply --server-side -k https://github.com/argoproj/argo-cd/manifests/crds?ref=stable
-#     EOT
-#   }
-# }
-
-# ###########################################
-# # Core ArgoCD Resources (minus CRDs)
-# ###########################################
-# data "http" "argocd_manifest" {
-#   url = "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
-# }
-
-
-# locals {
-#   argocd_non_crd_docs = [
-#     for doc in split("---", data.http.argocd_manifest.response_body) :
-#     doc
-#     if trimspace(doc) != "" && !can(regex("CustomResourceDefinition", doc))
-#   ]
-# }
-
-
-# resource "kubectl_manifest" "argocd" {
-#   for_each = {
-#     for d in local.argocd_non_crd_docs :
-#     sha256(d) => d
-#   }
-
-#   yaml_body          = each.value
-#   override_namespace = "argocd"
-
-#   depends_on = [
-#     kubernetes_namespace_v1.argocd,
-#     null_resource.argocd_crds
-#   ]
-# }
-
-# ###########################################
-# # Patch ArgoCD server service -> LoadBalancer
-# ###########################################
-# resource "null_resource" "patch_argocd_service" {
-#   provisioner "local-exec" {
-#     command = <<-EOT
-#       aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
-#       sleep 10
-#       kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}' || true
-#     EOT
-#   }
-
-#   depends_on = [kubectl_manifest.argocd]
-# }
-
-# ###########################################
-# # Deploy Example ArgoCD Application (GitOps)
-# ###########################################
-# resource "kubectl_manifest" "app_deployment" {
-#   yaml_body = file("${path.module}/../manifests/argocd-app.yaml")
-
-#   depends_on = [kubectl_manifest.argocd]
-# }
