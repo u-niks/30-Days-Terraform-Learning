@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/u-niks/gitops-manifest-awstf.git
+    repoURL: https://github.com/piyushsachdeva/gitops-manifest-awstf.git
     targetRevision: main
     path: 3tier-configs
   destination:
