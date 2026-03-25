@@ -161,5 +161,10 @@ resource "null_resource" "patch_argocd_service" {
 resource "kubectl_manifest" "app_deployment" {
   yaml_body = file("${path.module}/../manifests/argocd-app.yaml")
 
+  
+  force_conflicts = true
+  server_side_apply = true
+
+
   depends_on = [kubectl_manifest.argocd]
 }
