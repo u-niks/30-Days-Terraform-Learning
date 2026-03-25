@@ -1,7 +1,7 @@
 data "aws_availability_zones" "available" {
     filter {
         name   = "opt-in-status"
-        values = [ "opt-in-not-required" ]
+        values = ["opt-in-not-required"]
     }
 }
 
@@ -10,7 +10,7 @@ locals {
 }
 
 module "vpc" {
-    source = "terraform-aws-modules/vpc/aws"
+    source  = "terraform-aws-modules/vpc/aws"
     version = "~> 5.0"
 
     name = "gitops-vpc"
@@ -35,12 +35,12 @@ module "vpc" {
 }
 
 module "eks" {
-    source = "terraform-aws-modules/eks/aws"
+    source  = "terraform-aws-modules/eks/aws"
     version = "~> 20.0"
 
     cluster_name    = var.cluster_name
     cluster_version = "1.30"
-    
+
     cluster_endpoint_public_access = true
 
     vpc_id                   = module.vpc.vpc_id
@@ -49,13 +49,13 @@ module "eks" {
 
     eks_managed_node_groups = {
         initial = {
-            instance_types = [ "t3.medium" ]
+        instance_types = ["t3.medium"]
 
-            min_size     = 2
-            max_size     = 3
-            desired_size = 2
+        min_size     = 2
+        max_size     = 3
+        desired_size = 2
 
-            subnet_ids = module.vpc.private_subnets
+        subnet_ids = module.vpc.private_subnets
         }
     }
 
@@ -64,8 +64,8 @@ module "eks" {
 
     tags = {
         Environment = "dev"
-        Project     = "gitops-eks"
-        terraform   = "true"
+        Project     = "gitops-demo"
+        Terraform   = "true"
     }
 }
 
@@ -79,15 +79,15 @@ module "ebs_csi_driver_irsa" {
 
     oidc_providers = {
         main = {
-            provider_arn               = module.eks.oidc_provider_arn
-            namespcace_service_account = [ "kube-system:ebs-csi-controller-sa" ]
+        provider_arn               = module.eks.oidc_provider_arn
+        namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
         }
     }
 
     tags = {
         Environment = "dev"
-        Project     = "gitops-eks"
-        terraform   = "true"
+        Project     = "gitops-demo"
+        Terraform   = "true"
     }
 }
 
@@ -99,8 +99,8 @@ resource "aws_eks_addon" "ebs_csi_driver" {
 
     tags = {
         Environment = "dev"
-        Project     = "gitops-eks"
-        terraform   = "true"
+        Project     = "gitops-demo"
+        Terraform   = "true"
     }
 }
 
@@ -110,7 +110,7 @@ resource "kubernetes_namespace_v1" "argocd" {
         name = "argocd"
     }
 
-    depends_on = [ module.eks ]
+    depends_on = [module.eks]
 }
 
 # Install ArgoCD using kubectl provider
@@ -126,25 +126,25 @@ resource "kubectl_manifest" "argocd" {
     yaml_body          = each.value
     override_namespace = "argocd"
 
-    depends_on = [ kubernetes_namespace_v1.argocd]
+    depends_on = [kubernetes_namespace_v1.argocd]
 }
 
 # Patch ArgoCD server service to LoadBalancer
 resource "null_resource" "patch_argocd_service" {
     provisioner "local-exec" {
         command = <<-EOT
-            # Update kubeconfig first
-            aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
-
-            # Wait a bit for service to be created
-            sleep 10
-
-            # Patch the argocd-server service to LoadBalancer (ignore errors if already patched)
-            kubetctl patch svc argocd-server -n argocd -p '{"spec": {"spec": "LoadBalancer"}}' || true
+        # Update kubeconfig first
+        aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
+        
+        # Wait a bit for service to be created
+        sleep 10
+        
+        # Patch service to LoadBalancer (ignore errors if already patched)
+        kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}' || true
         EOT
     }
 
-    depends_on = [ kubectl_manifest.argocd ]
+    depends_on = [kubectl_manifest.argocd]
 }
 
 # Application namespace - managed by ArgoCD Application manifest
@@ -161,5 +161,5 @@ resource "null_resource" "patch_argocd_service" {
 resource "kubectl_manifest" "app_deployment" {
     yaml_body = file("${path.module}/../manifests/argocd-app.yaml")
 
-    depends_on = [ kubectl_manifest.argocd ]
+    depends_on = [kubectl_manifest.argocd]
 }
