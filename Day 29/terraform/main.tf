@@ -177,7 +177,8 @@ resource "null_resource" "argocd_crds" {
   provisioner "local-exec" {
     command = <<-EOT
       aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
-      kubectl apply -k https://github.com/argoproj/argo-cd/manifests/crds?ref=stable
+      # Use server-side apply to avoid huge annotation size
+      kubectl apply --server-side -k https://github.com/argoproj/argo-cd/manifests/crds?ref=stable
     EOT
   }
 }
