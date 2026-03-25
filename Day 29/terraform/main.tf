@@ -122,8 +122,7 @@ resource "kubectl_manifest" "argocd" {
   }
 
   yaml_body = each.value
-  override_namespace = "argocd"
-
+upda
   depends_on = [kubernetes_namespace_v1.argocd]
 }
 
