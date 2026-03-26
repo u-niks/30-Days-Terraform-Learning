@@ -121,12 +121,13 @@ resource "kubectl_manifest" "argocd" {
         sha256(doc) => doc if trimspace(doc) != "" 
     }
 
+    
     yaml_body          = each.value
-    override_namespace = "argocd"  
+    override_namespace = "argocd"
     server_side_apply  = true
+    force_conflicts    = true
     wait               = true
     wait_for_rollout   = true
-
 
     depends_on = [kubernetes_namespace_v1.argocd]
 }
