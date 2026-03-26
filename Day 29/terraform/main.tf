@@ -134,20 +134,20 @@ resource "kubectl_manifest" "argocd" {
 
 # Patch ArgoCD server service to LoadBalancer
 resource "null_resource" "patch_argocd_service" {
-  provisioner "local-exec" {
-    command = <<-EOT
-      # Update kubeconfig first
-      aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
-      
-      # Wait a bit for service to be created
-      sleep 10
-      
-      # Patch service to LoadBalancer (ignore errors if already patched)
-      kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}' || true
-    EOT
-  }
+    provisioner "local-exec" {
+        command = <<-EOT
+            # Update kubeconfig first
+            aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
+            
+            # Wait a bit for service to be created
+            sleep 10
+            
+            # Patch service to LoadBalancer (ignore errors if already patched)
+            kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}' || true
+        EOT
+    }
 
-  depends_on = [kubectl_manifest.argocd]
+    depends_on = [kubectl_manifest.argocd]
 }
 
 # Application namespace - managed by ArgoCD Application manifest
@@ -155,7 +155,7 @@ resource "null_resource" "patch_argocd_service" {
 # The namespace is created by ArgoCD from the GitOps repository
 # resource "kubernetes_namespace_v1" "app" {
 #   metadata {
-#     name = "3tirewebapp-dev"
+#     name = "3tierwebapp-dev"
 #   }
 #   depends_on = [module.eks]
 # }
