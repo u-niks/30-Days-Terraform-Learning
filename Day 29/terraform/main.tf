@@ -122,7 +122,11 @@ resource "kubectl_manifest" "argocd" {
     }
 
     yaml_body          = each.value
-    override_namespace = "argocd"
+    override_namespace = "argocd"  
+    server_side_apply  = true
+    wait               = true
+    wait_for_rollout   = true
+
 
     depends_on = [kubernetes_namespace_v1.argocd]
 }
