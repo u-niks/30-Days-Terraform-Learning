@@ -25,6 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.env-vars.outputs.environment }}
+    defaults:
+      run:
+        working-directory: "Day 30"
+
 
     steps:
       - name: Checkout
@@ -141,6 +145,9 @@ jobs:
     if: github.event_name == 'push' && needs.terraform-plan.result == 'success'
     runs-on: ubuntu-latest
     environment: ${{ needs.terraform-plan.outputs.environment }}
+    defaults:
+      run:
+        working-directory: "Day 30"
 
     steps:
       - name: Checkout
