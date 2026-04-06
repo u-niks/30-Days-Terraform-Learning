@@ -209,6 +209,7 @@ jobs:
         id: download
         with:
           name: tfplan-${{ env.ENVIRONMENT }}
+          path: "Day 30"
 
       - name: Check if Plan Exists
         id: check-plan
