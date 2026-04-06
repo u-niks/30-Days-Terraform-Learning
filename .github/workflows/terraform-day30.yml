@@ -66,12 +66,12 @@ jobs:
           terraform_version: ${{ env.TF_VERSION }}
           terraform_wrapper: false
       
-      - name: Debug — show current directory
+      - name: Debug Files
         run: |
-          echo "Current directory:"
-          pwd
-          echo "List all files recursively:"
-          ls -R .
+          echo "PWD:" && pwd
+          echo "FILES:" && ls -l
+          echo "Backend files:" && ls -l backend-*.hcl || true
+          echo "TF files:" && ls -l *.tf || true
 
       - name: Terraform Init
         run: |
