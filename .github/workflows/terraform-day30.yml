@@ -25,6 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.env-vars.outputs.environment }}
+    defaults:
+      run:
+        working-directory: "./Day 30/"
 
 
     steps:
