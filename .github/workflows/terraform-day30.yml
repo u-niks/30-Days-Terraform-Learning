@@ -90,8 +90,20 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: |
-          terraform plan -no-color -out=tfplan > plan_output.txt 2>&1 || true
-        continue-on-error: true
+            EXIT_CODE=$?
+            echo "PLAN_EXIT=$EXIT_CODE" >> $GITHUB_ENV
+            echo ""
+            echo "===== BACKEND ERROR (stderr) ====="
+            cat plan_error.txt || true
+            echo ""
+            echo "===== PLAN OUTPUT (stdout) ====="
+            cat plan_output.txt || true
+            echo ""
+            echo "===== DIRECTORY ====="
+            ls -l
+            exit 0
+            set +e
+
 
       - name: Show Plan Output
         run: |
