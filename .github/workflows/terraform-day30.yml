@@ -93,7 +93,7 @@ jobs:
           terraform plan -no-color -out=tfplan > plan_output.txt 2>&1 || true
         continue-on-error: true
 
-      - name: Terraform Plan
+      - name: Terraform Plan 2
         id: plan
         run: |
           EXIT_CODE=$?
