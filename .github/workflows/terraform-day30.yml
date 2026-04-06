@@ -70,7 +70,7 @@ jobs:
         run: |
           echo "Current directory:"
           pwd
-          echo "List all files recursively :"
+          echo "List all files recursively:"
           ls -R .
 
       - name: Terraform Init
