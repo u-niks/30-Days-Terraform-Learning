@@ -90,7 +90,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: |
-          terraform plan -no-color -out=tfplan | tee plan_output.txt
+          terraform plan -no-color -out=tfplan > plan_output.txt 2>&1 || true
         continue-on-error: true
 
       - name: Comment PR with Plan
