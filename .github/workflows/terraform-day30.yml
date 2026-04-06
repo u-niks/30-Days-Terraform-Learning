@@ -27,7 +27,7 @@ jobs:
       environment: ${{ steps.env-vars.outputs.environment }}
     defaults:
       run:
-        working-directory: "./../Day 30/"
+        working-directory: "../Day 30"
 
 
     steps:
@@ -147,7 +147,7 @@ jobs:
     environment: ${{ needs.terraform-plan.outputs.environment }}
     defaults:
       run:
-        working-directory: "./../Day 30/"
+        working-directory: "../Day 30"
 
 
     steps:
