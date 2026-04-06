@@ -91,6 +91,7 @@ jobs:
         id: plan
         run: |
           terraform plan -no-color -out=tfplan | tee plan_output.txt
+        working-directory: scripts/
         continue-on-error: true
 
       - name: Terraform Status With Debug
@@ -156,7 +157,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan-${{ env.ENVIRONMENT }}
-          path: tfplan
+          path: scripts/tfplan
           retention-days: 5
           if-no-files-found: warn
 
