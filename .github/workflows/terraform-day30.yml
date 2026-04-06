@@ -94,7 +94,6 @@ jobs:
         continue-on-error: true
 
       - name: Terraform Status With Debug
-        id: plan
         run: |
           EXIT_CODE=$?
           echo "PLAN_EXIT=$EXIT_CODE" >> $GITHUB_ENV
