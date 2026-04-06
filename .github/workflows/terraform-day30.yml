@@ -208,7 +208,7 @@ jobs:
         continue-on-error: true
         id: download
         with:
-          name: "Day 30/tfplan-${{ env.ENVIRONMENT }}"
+          name: tfplan-${{ env.ENVIRONMENT }}
 
       - name: Check if Plan Exists
         id: check-plan
