@@ -93,6 +93,11 @@ jobs:
           terraform plan -no-color -out=tfplan > plan_output.txt 2>&1 || true
         continue-on-error: true
 
+      - name: Show Plan Output
+        run: |
+          echo "===== PLAN OUTPUT BELOW ====="
+          cat plan_output.txt
+
       - name: Comment PR with Plan
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
