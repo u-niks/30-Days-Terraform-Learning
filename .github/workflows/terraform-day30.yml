@@ -65,6 +65,13 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
           terraform_wrapper: false
+      
+      - name: Debug — show current directory
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "List all files recursively:"
+          ls -R .
 
       - name: Terraform Init
         run: |
